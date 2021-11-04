@@ -1,9 +1,11 @@
 // ==UserScript==
 // @name         streamrapid.ru / VidCloud
 // @description  Watch videos in external player.
-// @version      1.0.0
+// @version      1.0.1
 // @match        *://streamrapid.ru/*
 // @match        *://*.streamrapid.ru/*
+// @match        *://vidcloud.co/*
+// @match        *://*.vidcloud.co/*
 // @icon         https://streamrapid.ru/images/favicon.png
 // @run-at       document-end
 // @grant        unsafeWindow
