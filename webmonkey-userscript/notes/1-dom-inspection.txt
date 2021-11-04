@@ -1,0 +1,107 @@
+--------------------------------------------------------------------------------
+
+https://www.2embed.ru/
+
+API URL query format:
+  https://www.2embed.ru/embed/imdb/movie?id=IMDB ID
+  https://www.2embed.ru/embed/imdb/tv?id=IMDB ID&s=SEASON NUMBER&e=EPISODE NUMBER
+
+--------------------------------------------------------------------------------
+
+https://www.imdb.com/title/tt4051832/
+  Lovesick
+
+https://www.2embed.ru/embed/imdb/tv?id=tt4051832&s=1&e=1
+
+found in DOM:
+=============
+  <div class="dropdown-menu dropdown-menu-model">
+      <a class="dropdown-item item-server" href="javascript:;" data-id="2496523">Server Vidcloud</a>
+      <a class="dropdown-item item-server" href="javascript:;" data-id="1005264">Server Upstream</a>
+      <a class="dropdown-item item-server" href="javascript:;" data-id="2239892">Server Hydrax</a>
+  </div>
+
+--------------------------------------------------------------------------------
+
+https://www.2embed.ru/ajax/embed/play?id=2496523&_token=
+  {"type":"iframe","link":"https://streamrapid.ru/embed-5/1wH0qkHbygZp?z=","sources":[],"tracks":[]}
+
+https://www.2embed.ru/ajax/embed/play?id=1005264&_token=
+  {"type":"iframe","link":"https://upstream.to/embed-nfknn582q4zs.html","sources":[],"tracks":[]}
+
+https://www.2embed.ru/ajax/embed/play?id=2239892&_token=
+  {"type":"iframe","link":"https://embed2.megaxfer.ru/embed2/9879febc237256bd5a48a41fefe1dae9","sources":[],"tracks":[]}
+
+--------------------------------------------------------------------------------
+
+https://streamrapid.ru/embed-5/1wH0qkHbygZp?z=
+  Cookie: _token=03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ
+
+--------------------------------------------------------------------------------
+
+debug:
+======
+  {
+    var id, token, url
+
+    id    = '1wH0qkHbygZp'
+    token = '03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ'
+    url   = 'https://streamrapid.ru/ajax/embed-5/getSources?id=' + id + '&_token=' + token + '&_number=1'
+
+    console.log(url)
+  }
+
+output:
+=======
+  https://streamrapid.ru/ajax/embed-5/getSources?id=1wH0qkHbygZp&_token=03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ&_number=1
+
+--------------------------------------------------------------------------------
+
+debug:
+======
+  curl --insecure --include 'https://streamrapid.ru/ajax/embed-5/getSources?id=1wH0qkHbygZp&_token=03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ&_number=1'
+
+output:
+=======
+  HTTP/2 200
+  {
+    "sources": [{
+        "file": "https://b-g-ca-3.betterstream.co:2222/v2-hls-playback/ab87e46c1f0634d793bce45ace41d7c6545b7a1cec4a3d9025de5de6655655b232c943573785e1123307484d1d1495f7be728d910bad7e2c5f1e50655e8aaedcb3ef3d5ca7247277102478fe13df157d0f70724f12c389ea83da8317a09b9975bed45eeee34f4d87e34a9deae6c68059a1bd2858958f184afdefce6274389119ad4d792a6fdea28994ab5445ec65de127731706f8949e295f373c2d6fdf18e5c/360/index.m3u8",
+        "type": "hls"
+    }],
+    "tracks": [{
+        "file": "https://cc.1clickcdn.ru/4e/b3/4eb324f9a5dc48950f0c0ff72eb0b258/4eb324f9a5dc48950f0c0ff72eb0b258.vtt",
+        "label": "Danish 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/de/c0/dec05d0ee0437fcf158d9b4cc96de010/dec05d0ee0437fcf158d9b4cc96de010.vtt",
+        "label": "English 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/a8/5a/a85a8596dca16933d6a643df0b3be482/a85a8596dca16933d6a643df0b3be482.vtt",
+        "label": "English 2",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/f8/57/f8572ea1e47bf62372ab5c85c7e83ed6/f8572ea1e47bf62372ab5c85c7e83ed6.vtt",
+        "label": "English 3",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/70/01/700178234ef9c923a70263a5e36ce803/700178234ef9c923a70263a5e36ce803.vtt",
+        "label": "French 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/22/e0/22e05f89d78a0bb308b702c0ddbf3e89/22e05f89d78a0bb308b702c0ddbf3e89.vtt",
+        "label": "German 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/2b/f5/2bf5d45440e062e4cdbb951d7cf24aff/2bf5d45440e062e4cdbb951d7cf24aff.vtt",
+        "label": "Italian 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/5a/c3/5ac3ac665ff69c37693541c3216dce3a/5ac3ac665ff69c37693541c3216dce3a.vtt",
+        "label": "Spanish 1",
+        "kind": "captions"
+    }]
+  }
+
+--------------------------------------------------------------------------------
