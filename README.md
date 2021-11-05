@@ -1,11 +1,11 @@
-### [streamrapid.ru / VidCloud](https://github.com/warren-bank/crx-streamrapid-ru/tree/webmonkey-userscript/es5)
+### [VidCloud.co](https://github.com/warren-bank/crx-VidCloud-co/tree/webmonkey-userscript/es5)
 
-[Userscript](https://github.com/warren-bank/crx-streamrapid-ru/raw/webmonkey-userscript/es5/webmonkey-userscript/streamrapid-ru.user.js) to run in both:
+[Userscript](https://github.com/warren-bank/crx-VidCloud-co/raw/webmonkey-userscript/es5/webmonkey-userscript/VidCloud-co.user.js) to run in both:
 * the [WebMonkey](https://github.com/warren-bank/Android-WebMonkey) application for Android
 * the [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) web browser extension for Chrome/Chromium
 
 Its purpose is to:
-* redirect embedded videos from [_streamrapid.ru_](https://streamrapid.ru/) to an external player
+* redirect embedded videos from [_vidcloud.co_](https://vidcloud.co/) to an external player
 
 #### Legal:
 

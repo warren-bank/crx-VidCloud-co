@@ -1,18 +1,18 @@
 // ==UserScript==
-// @name         streamrapid.ru / VidCloud
+// @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.1
-// @match        *://streamrapid.ru/*
-// @match        *://*.streamrapid.ru/*
+// @version      1.0.2
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
-// @icon         https://streamrapid.ru/images/favicon.png
+// @match        *://streamrapid.ru/*
+// @match        *://*.streamrapid.ru/*
+// @icon         https://vidcloud.co/images/favicon.png
 // @run-at       document-end
 // @grant        unsafeWindow
-// @homepage     https://github.com/warren-bank/crx-streamrapid-ru/tree/webmonkey-userscript/es5
-// @supportURL   https://github.com/warren-bank/crx-streamrapid-ru/issues
-// @downloadURL  https://github.com/warren-bank/crx-streamrapid-ru/raw/webmonkey-userscript/es5/webmonkey-userscript/streamrapid-ru.user.js
-// @updateURL    https://github.com/warren-bank/crx-streamrapid-ru/raw/webmonkey-userscript/es5/webmonkey-userscript/streamrapid-ru.user.js
+// @homepage     https://github.com/warren-bank/crx-VidCloud-co/tree/webmonkey-userscript/es5
+// @supportURL   https://github.com/warren-bank/crx-VidCloud-co/issues
+// @downloadURL  https://github.com/warren-bank/crx-VidCloud-co/raw/webmonkey-userscript/es5/webmonkey-userscript/VidCloud-co.user.js
+// @updateURL    https://github.com/warren-bank/crx-VidCloud-co/raw/webmonkey-userscript/es5/webmonkey-userscript/VidCloud-co.user.js
 // @namespace    warren-bank
 // @author       Warren Bank
 // @copyright    Warren Bank
@@ -318,7 +318,7 @@ var obtain_video_sources = function() {
     return
   }
 
-  url = 'https://streamrapid.ru/ajax/embed-5/getSources?id=' + id + '&_token=' + token + '&_number=1'
+  url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/embed-5/getSources?id=' + id + '&_token=' + token + '&_number=1'
 
   download_json(url, null, function(data) {
     var video_url, vtt_url
