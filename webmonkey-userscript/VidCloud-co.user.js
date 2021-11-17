@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.3
+// @version      1.0.4
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
 // @match        *://vidcloud.pro/*
@@ -75,15 +75,6 @@ var download_text = function(url, headers, callback) {
   }
 
   xhr.send()
-}
-
-var download_json = function(url, headers, callback) {
-  download_text(url, headers, function(text) {
-    try {
-      callback(JSON.parse(text))
-    }
-    catch(e) {}
-  })
 }
 
 // -----------------------------------------------------------------------------
@@ -306,7 +297,7 @@ var determine_xhr_token = function() {
   return state.xhr_token
 }
 
-var obtain_video_sources = function() {
+var trigger_xhr_video_sources = function() {
   var id, token, url
 
   id = determine_xhr_id()
@@ -317,17 +308,25 @@ var obtain_video_sources = function() {
     if (state.remaining_poll_attempts > 0) {
       state.remaining_poll_attempts--
 
-      unsafeWindow.setTimeout(obtain_video_sources, user_options.common.script_init_poll_interval_ms)
+      unsafeWindow.setTimeout(trigger_xhr_video_sources, user_options.common.script_init_poll_interval_ms)
     }
     return
   }
 
   url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/embed-5/getSources?id=' + id + '&_token=' + token + '&_number=1'
 
-  download_json(url, null, function(data) {
+  download_text(url, null, process_xhr_video_sources)
+}
+
+// ----------------------------------------------------------------------------- process XHR response
+
+var process_xhr_video_sources = function(text) {
+  try {
+    var data
     var video_url, vtt_url
     var file_reducer, preferred_tracks
 
+    data = JSON.parse(text)
     if (!data || (typeof data !== 'object') || !Array.isArray(data.sources) || !data.sources.length) return
 
     file_reducer = function(file, data) {
@@ -364,7 +363,29 @@ var obtain_video_sources = function() {
     }
 
     process_video_url(video_url, /* video_type= */ null, vtt_url)
-  })
+  }
+  catch(e) {}
+}
+
+// ----------------------------------------------------------------------------- intercept XHR response
+
+var intercept_xhr_video_sources = function() {
+  var xhr_open, url_regex
+
+  xhr_open  = XMLHttpRequest.prototype.open
+  url_regex = new RegExp('/ajax/embed(?:-\\d+)?/getSources')
+
+  XMLHttpRequest.prototype.open = function(method, uri, async, user, pass) {
+    this.addEventListener("readystatechange", function(event) {
+      var xhr = this
+
+      if ((xhr.readyState === 4) && (xhr.status === 200) && url_regex.test(uri)) {
+        process_xhr_video_sources(xhr.responseText)
+      }
+    }, false)
+
+    xhr_open.call(this, method, uri, async, user, pass)
+  }
 }
 
 // ----------------------------------------------------------------------------- bootstrap
@@ -389,12 +410,10 @@ var init = function() {
   clear_all_timeouts()
   clear_all_intervals()
 
-  obtain_video_sources()
+  intercept_xhr_video_sources()
+  trigger_xhr_video_sources()
 }
 
-unsafeWindow.setTimeout(
-  init,
-  user_options.script_init_delay
-)
+init()
 
 // -----------------------------------------------------------------------------
