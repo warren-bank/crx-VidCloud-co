@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.4
+// @version      1.0.5
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
 // @match        *://vidcloud.pro/*
@@ -45,6 +45,7 @@ var user_options = {
 
 var state = {
   "remaining_poll_attempts":        Math.ceil(user_options.common.script_init_timeout_ms / user_options.common.script_init_poll_interval_ms),
+  "xhr_embed":                      null,
   "xhr_id":                         null,
   "xhr_token":                      null
 }
@@ -268,43 +269,57 @@ var process_dash_url = function(dash_url, vtt_url, referer_url) {
 // ----------------------------------------------------------------------------- make XHR
 
 var determine_xhr_id = function() {
-  var pathname, regex
+  var pathname, regex, match
 
   if (!state.xhr_id) {
-    pathname = unsafeWindow.location.pathname
-    regex    = new RegExp('^/embed(?:-\\d+)?/([^/]+)$')
+    try {
+      pathname = unsafeWindow.location.pathname
+      regex    = new RegExp('^/(embed(?:-\\d+)?)/([^/]+)$')
+      match    = regex.exec(pathname)
 
-    state.xhr_id = (regex.test(pathname))
-      ? pathname.replace(regex, '$1')
-      : null
+      if (match && match.length) {
+        state.xhr_embed = match[1]
+        state.xhr_id    = match[2]
+      }
+    }
+    catch(e) {}
   }
-
-  return state.xhr_id
 }
 
 var determine_xhr_token = function() {
-  var cookies, regex
+  var cookies, regex, match
 
   if (!state.xhr_token) {
-    cookies = unsafeWindow.document.cookie || ''
-    regex   = /^.*\b_token=([^;\s]+)(?:[;\s].*)?$/
+    try {
+      cookies = unsafeWindow.document.cookie || ''
+      regex   = /\b_token=([^;\s]+)/
+      match   = regex.exec(cookies)
 
-    state.xhr_token = (regex.test(cookies))
-      ? cookies.replace(regex, '$1')
-      : null
+      if (match && match.length) {
+        state.xhr_token = match[1]
+      }
+    }
+    catch(e) {}
   }
 
-  return state.xhr_token
+  if (!state.xhr_token) {
+    try {
+      unsafeWindow.grecaptcha.execute(unsafeWindow.recaptchaSiteKey, {action: 'get_sources'}).then(function(token) {
+        if (token) {
+          state.xhr_token = token
+        }
+      })
+    }
+    catch(e) {}
+  }
 }
 
 var trigger_xhr_video_sources = function() {
-  var id, token, url
+  determine_xhr_id()
+  if (!state.xhr_id) return
 
-  id = determine_xhr_id()
-  if (!id) return
-
-  token = determine_xhr_token()
-  if (!token) {
+  determine_xhr_token()
+  if (!state.xhr_token) {
     if (state.remaining_poll_attempts > 0) {
       state.remaining_poll_attempts--
 
@@ -313,7 +328,7 @@ var trigger_xhr_video_sources = function() {
     return
   }
 
-  url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/embed-5/getSources?id=' + id + '&_token=' + token + '&_number=1'
+  var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + state.xhr_token + '&_number=1'
 
   download_text(url, null, process_xhr_video_sources)
 }
@@ -322,12 +337,19 @@ var trigger_xhr_video_sources = function() {
 
 var process_xhr_video_sources = function(text) {
   try {
-    var data
+    var data, video_sources
     var video_url, vtt_url
     var file_reducer, preferred_tracks
 
     data = JSON.parse(text)
-    if (!data || (typeof data !== 'object') || !Array.isArray(data.sources) || !data.sources.length) return
+    if (!data || (typeof data !== 'object')) return
+
+    video_sources = []
+    if (Array.isArray(data.sources) && data.sources.length)
+      video_sources = video_sources.concat(data.sources)
+    if (Array.isArray(data.sourcesBackup) && data.sourcesBackup.length)
+      video_sources = video_sources.concat(data.sourcesBackup)
+    if (!video_sources.length) return
 
     file_reducer = function(file, data) {
       if (file) return file
@@ -337,7 +359,7 @@ var process_xhr_video_sources = function(text) {
         : null
     }
 
-    video_url = data.sources.reduce(file_reducer, null)
+    video_url = video_sources.reduce(file_reducer, null)
     if (!video_url) return
 
     if (Array.isArray(data.tracks) && data.tracks.length) {
@@ -367,27 +389,6 @@ var process_xhr_video_sources = function(text) {
   catch(e) {}
 }
 
-// ----------------------------------------------------------------------------- intercept XHR response
-
-var intercept_xhr_video_sources = function() {
-  var xhr_open, url_regex
-
-  xhr_open  = XMLHttpRequest.prototype.open
-  url_regex = new RegExp('/ajax/embed(?:-\\d+)?/getSources')
-
-  XMLHttpRequest.prototype.open = function(method, uri, async, user, pass) {
-    this.addEventListener("readystatechange", function(event) {
-      var xhr = this
-
-      if ((xhr.readyState === 4) && (xhr.status === 200) && url_regex.test(uri)) {
-        process_xhr_video_sources(xhr.responseText)
-      }
-    }, false)
-
-    xhr_open.call(this, method, uri, async, user, pass)
-  }
-}
-
 // ----------------------------------------------------------------------------- bootstrap
 
 var clear_all_timeouts = function() {
@@ -410,7 +411,6 @@ var init = function() {
   clear_all_timeouts()
   clear_all_intervals()
 
-  intercept_xhr_video_sources()
   trigger_xhr_video_sources()
 }
 
