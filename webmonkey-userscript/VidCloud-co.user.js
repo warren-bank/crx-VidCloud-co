@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.5
+// @version      1.0.6
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
 // @match        *://vidcloud.pro/*
@@ -28,8 +28,9 @@ var user_options = {
   "common": {
     "preferred_captions_language":  "english",
 
+    "script_init_delay_ms":         2500,
     "script_init_poll_interval_ms": 500,
-    "script_init_timeout_ms":       30000
+    "script_init_poll_timeout_ms":  30000
   },
   "webmonkey": {
     "post_intent_redirect_to_url":  "about:blank"
@@ -41,13 +42,16 @@ var user_options = {
   }
 }
 
-// ----------------------------------------------------------------------------- constants
+// ----------------------------------------------------------------------------- state
 
 var state = {
-  "remaining_poll_attempts":        Math.ceil(user_options.common.script_init_timeout_ms / user_options.common.script_init_poll_interval_ms),
+  "remaining_poll_attempts":        Math.ceil(user_options.common.script_init_poll_timeout_ms / user_options.common.script_init_poll_interval_ms),
   "xhr_embed":                      null,
   "xhr_id":                         null,
-  "xhr_token":                      null
+  "xhr_token":                      null,
+  "token": {
+    "recaptcha_key":                null
+  }
 }
 
 // ----------------------------------------------------------------------------- helpers
@@ -80,9 +84,17 @@ var download_text = function(url, headers, callback) {
 
 // -----------------------------------------------------------------------------
 
-var cancel_event = function(event) {
-  event.stopPropagation();event.stopImmediatePropagation();event.preventDefault();event.returnValue=false;
+var make_element = function(elementName, html) {
+  var el = unsafeWindow.document.createElement(elementName)
+
+  if (html)
+    el.innerHTML = html
+
+  return el
 }
+
+var make_div  = function(html) {return make_element('div',  html)}
+var make_span = function(text) {return make_element('span', text)}
 
 // ----------------------------------------------------------------------------- URL links to tools on Webcast Reloaded website
 
@@ -266,10 +278,11 @@ var process_dash_url = function(dash_url, vtt_url, referer_url) {
   process_video_url(/* video_url= */ dash_url, /* video_type= */ 'application/dash+xml', vtt_url, referer_url)
 }
 
-// ----------------------------------------------------------------------------- make XHR
+// ----------------------------------------------------------------------------- determine static XHR parameters
 
-var determine_xhr_id = function() {
-  var pathname, regex, match
+var determine_static_xhr_parameters = function() {
+  var pathname, cookies
+  var regex, match
 
   if (!state.xhr_id) {
     try {
@@ -284,10 +297,6 @@ var determine_xhr_id = function() {
     }
     catch(e) {}
   }
-}
-
-var determine_xhr_token = function() {
-  var cookies, regex, match
 
   if (!state.xhr_token) {
     try {
@@ -301,36 +310,79 @@ var determine_xhr_token = function() {
     }
     catch(e) {}
   }
+}
 
-  if (!state.xhr_token) {
-    try {
-      unsafeWindow.grecaptcha.execute(unsafeWindow.recaptchaSiteKey, {action: 'get_sources'}).then(function(token) {
-        if (token) {
-          state.xhr_token = token
-        }
-      })
-    }
-    catch(e) {}
+// ----------------------------------------------------------------------------- reinitialize dom
+
+var reset_dom = function() {
+  var $recaptcha_script, recaptcha_src
+
+  state.token.recaptcha_key = unsafeWindow.recaptchaSiteKey
+  $recaptcha_script = unsafeWindow.document.querySelector('script[src*="google.com/recaptcha/api.js"]')
+  if ($recaptcha_script) {
+    recaptcha_src     = $recaptcha_script.getAttribute('src')
+    $recaptcha_script = null
+  }
+
+  delete unsafeWindow.window.grecaptcha
+
+  unsafeWindow.document.close()
+  unsafeWindow.document.write('')
+  unsafeWindow.document.close()
+
+  if (recaptcha_src) {
+    $recaptcha_script = make_element('script')
+    $recaptcha_script.setAttribute('src', recaptcha_src)
+    unsafeWindow.document.body.appendChild($recaptcha_script)
   }
 }
 
+var reinitialize_dom = function() {
+  reset_dom()
+}
+
+// ----------------------------------------------------------------------------- determine dynamic XHR parameters
+
+var determine_xhr_token = function(callback) {
+  try {
+    unsafeWindow.window.grecaptcha.execute(state.token.recaptcha_key, {action: 'get_sources'}).then(function(token) {
+      if (token) {
+        state.xhr_token = token
+        callback()
+        return
+      }
+    })
+  }
+  catch(e) {}
+}
+
+// ----------------------------------------------------------------------------- trigger XHR request
+
 var trigger_xhr_video_sources = function() {
-  determine_xhr_id()
-  if (!state.xhr_id) return
+  var xhr_callback, timer_callback
 
-  determine_xhr_token()
-  if (!state.xhr_token) {
-    if (state.remaining_poll_attempts > 0) {
-      state.remaining_poll_attempts--
+  xhr_callback = function() {
+    var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + state.xhr_token + '&_number=1'
 
-      unsafeWindow.setTimeout(trigger_xhr_video_sources, user_options.common.script_init_poll_interval_ms)
-    }
-    return
+    download_text(url, null, process_xhr_video_sources)
   }
 
-  var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + state.xhr_token + '&_number=1'
+  if (state.xhr_token) {
+    xhr_callback()
+  }
+  else {
+    timer_callback = function(force_delay) {
+      if ((state.remaining_poll_attempts > 0) && (!unsafeWindow.window.grecaptcha || (force_delay === true))) {
+        state.remaining_poll_attempts--
+        setTimeout(timer_callback, user_options.common.script_init_poll_interval_ms)
+      }
+      else {
+        determine_xhr_token(xhr_callback)
+      }
+    }
 
-  download_text(url, null, process_xhr_video_sources)
+    timer_callback(true)
+  }
 }
 
 // ----------------------------------------------------------------------------- process XHR response
@@ -408,12 +460,19 @@ var clear_all_intervals = function() {
 }
 
 var init = function() {
+  if (unsafeWindow.window.did_userscript_init) return
+  unsafeWindow.window.did_userscript_init = true
+
   clear_all_timeouts()
   clear_all_intervals()
 
+  determine_static_xhr_parameters()
+  if (!state.xhr_id) return
+
+  reinitialize_dom()
   trigger_xhr_video_sources()
 }
 
-init()
+setTimeout(init, user_options.common.script_init_delay_ms)
 
 // -----------------------------------------------------------------------------
