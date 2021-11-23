@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.6
+// @version      1.0.7
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
 // @match        *://vidcloud.pro/*
@@ -27,6 +27,7 @@
 var user_options = {
   "common": {
     "preferred_captions_language":  "english",
+    "reinitialize_dom":             false,
 
     "script_init_delay_ms":         2500,
     "script_init_poll_interval_ms": 500,
@@ -345,11 +346,10 @@ var reinitialize_dom = function() {
 
 var determine_xhr_token = function(callback) {
   try {
-    unsafeWindow.window.grecaptcha.execute(state.token.recaptcha_key, {action: 'get_sources'}).then(function(token) {
+    unsafeWindow.window.grecaptcha.execute((state.token.recaptcha_key || unsafeWindow.recaptchaSiteKey), {action: 'get_sources'}).then(function(token) {
       if (token) {
         state.xhr_token = token
         callback()
-        return
       }
     })
   }
@@ -469,7 +469,9 @@ var init = function() {
   determine_static_xhr_parameters()
   if (!state.xhr_id) return
 
-  reinitialize_dom()
+  if (user_options.common.reinitialize_dom)
+    reinitialize_dom()
+
   trigger_xhr_video_sources()
 }
 
