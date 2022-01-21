@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.7
+// @version      1.0.8
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
 // @match        *://vidcloud.pro/*
 // @match        *://*.vidcloud.pro/*
+// @match        *://rabbitstream.net/*
+// @match        *://*.rabbitstream.net/*
 // @match        *://rapid-cloud.ru/*
 // @match        *://*.rapid-cloud.ru/*
 // @match        *://streamrapid.ru/*
