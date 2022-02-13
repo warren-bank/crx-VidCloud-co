@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.8
+// @version      1.0.9
 // @match        *://vidcloud.co/*
 // @match        *://*.vidcloud.co/*
 // @match        *://vidcloud.pro/*
@@ -364,7 +364,7 @@ var trigger_xhr_video_sources = function() {
   var xhr_callback, timer_callback
 
   xhr_callback = function() {
-    var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + state.xhr_token + '&_number=1'
+    var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + state.xhr_token + '&_number=1&sId=1'
 
     download_text(url, null, process_xhr_video_sources)
   }

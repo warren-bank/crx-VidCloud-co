@@ -1,0 +1,158 @@
+--------------------------------------------------------------------------------
+// https://rabbitstream.net/js/player/e5-player-v2.min.js?v=3.0
+
+var player = jwplayer(_0x35df3f(0xac4)),
+  sources = [],
+  tracks = [],
+  autoPlay = Boolean(parseInt(settings[_0x35df3f(0xac7)])),
+  id = $(_0x35df3f(0x68a))[_0x35df3f(0x1028)]('id'),
+  socketId = null;
+
+const socket = getSocket(_0x35df3f(0x958));
+socket['on']('connect', () => {
+  var _0x3e9f1b = _0x35df3f;
+  socketId ? socket[_0x3e9f1b(0x215)]('_reconnect', socketId) : (socketId = socket['id'], getSources());
+});
+
+function getSources() {
+  var _0x2c135c = _0x35df3f;
+  Cookies[_0x2c135c(0x3f2)](_0x2c135c(0x2ea)) ? requestGetSources(Cookies['get'](_0x2c135c(0x2ea))) : _0x2c135c(0xa85) != typeof grecaptcha ? grecaptcha['ready'](function() {
+    var _0x1d3230 = _0x2c135c;
+    grecaptcha['execute'](recaptchaSiteKey, {
+      'action': 'embed_5_get_sources'
+    })[_0x1d3230(0x69d)](function(_0x320b71) {
+      requestGetSources(_0x320b71);
+    });
+  }) : requestGetSources('');
+}
+
+function requestGetSources(_0xad00db) {
+  var _0x182c9b = _0x35df3f;
+  $['get']('/ajax/embed-5/getSources?id=' + id + _0x182c9b(0xa72) + _0xad00db + '&_number=' + recaptchaNumber + _0x182c9b(0x22c) + socketId, function(_0x38521e) {
+    var _0xa7eed7 = _0x182c9b;
+    _0x38521e && (sources = _0x38521e[_0xa7eed7(0x5a1)], tracks = _0x38521e['tracks'], setupPlayer());
+  });
+}
+
+function setupPlayer() {
+  var _0x3378e7 = _0x35df3f,
+    _0x8437ce = {
+      'autostart': autoPlay,
+      'mute': !0x1,
+      'sources': sources,
+      'tracks': tracks,
+      'cast': {},
+      'playbackRateControls': [0.25, 0.5, 0.75, 0x1, 1.25, 1.5, 0x2]
+    };
+  player[_0x3378e7(0x76f)](_0x8437ce);
+}
+
+----------------------------------------
+// decoded static string values:
+
+* encoded:
+    id = $(_0x35df3f(0x68a))[_0x35df3f(0x1028)]('id')
+  decoded substrings:
+    _0x35df3f(0x68a)  === '#vidcloud-player'
+    _0x35df3f(0x1028) === 'data'
+  decoded:
+    id = $('#vidcloud-player')['data']('id')
+  without jQuery:
+    id = document.getElementById('vidcloud-player').getAttribute('data-id')
+
+* encoded:
+    Cookies['get'](_0x2c135c(0x2ea))
+  decoded substrings:
+    _0x35df3f(0x2ea) === '_token'
+  decoded:
+    Cookies['get']('_token')
+
+* encoded:
+    '/ajax/embed-5/getSources?id=' + id + _0x182c9b(0xa72) + _0xad00db + '&_number=' + recaptchaNumber + _0x182c9b(0x22c) + socketId
+  decoded substrings:
+    _0x35df3f(0xa72) === '&_token='
+    _0x35df3f(0x22c) === '&sId='
+  decoded:
+    '/ajax/embed-5/getSources?id=' + id + '&_token=' + _0xad00db + '&_number=' + recaptchaNumber + '&sId=' + socketId
+
+--------------------------------------------------------------------------------
+
+https://www.imdb.com/title/tt4051832/
+  Lovesick
+
+https://www.2embed.ru/embed/imdb/tv?id=tt4051832&s=1&e=1
+
+https://www.2embed.ru/ajax/embed/play?id=2496523&_token=
+  {"type":"iframe","link":"https://streamrapid.ru/embed-5/1wH0qkHbygZp?z=","sources":[],"tracks":[]}
+
+https://streamrapid.ru/embed-5/1wH0qkHbygZp?z=
+  Cookie: _token=03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ
+
+--------------------------------------------------------------------------------
+
+debug:
+======
+  {
+    var id, token, url
+
+    id    = '1wH0qkHbygZp'
+    token = '03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ'
+    url   = 'https://streamrapid.ru/ajax/embed-5/getSources?id=' + id + '&_token=' + token + '&_number=1&sId=1'
+
+    console.log(url)
+  }
+
+output:
+=======
+  https://streamrapid.ru/ajax/embed-5/getSources?id=1wH0qkHbygZp&_token=03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ&_number=1&sId=1
+
+--------------------------------------------------------------------------------
+
+debug:
+======
+  curl --insecure --include 'https://streamrapid.ru/ajax/embed-5/getSources?id=1wH0qkHbygZp&_token=03AGdBq27cwqWy58BxvwDK8I3zp-q-MXK2MGOvYTtg1BFabqeitoLQmCWYpuNoyxI-Q7IsMacNYFkMGQH9Es4TWtrUd2rTnYtKlPxeTmjJ8VyxgFqgEtej_UN1h8Cm2DEpxKBqyyhXp15xpQ_4qC1evwfFVdE62cBCwIO7EhzgWBHJGAiafu0Bu4PunheG2blWzfIpEDFOj-hnfRBZVJcVGHeA1sk1qomdXfR1-YTZWtzegRJ9nqwjMLATd5HTNoRHhyG6wbEKxcsBpOyXUxw8rPKKEqUuqDTkNEf-ChwAGQCmGKHCLcVsWgxKlTrhTqzlPwgVnBJEK9xIJwAe9rRRAVOfVvOE4tJb8j5tv-MS2kj02oBcMWoenI1RW_XbBEu7p9v75oFCZsLyymfdZASzpOc_oizfjf7NPN1XRqShT8xp6NTKa9Spzh9SKx_GwKacZjsq59htmPUQWEmGBzcOHBA7HfHwWEmiDQ&_number=1&sId=1'
+
+output:
+=======
+  HTTP/2 200
+  {
+    "sources": [{
+        "file": "https://b-g-ca-3.betterstream.co:2222/v2-hls-playback/ab87e46c1f0634d793bce45ace41d7c6545b7a1cec4a3d9025de5de6655655b232c943573785e1123307484d1d1495f7be728d910bad7e2c5f1e50655e8aaedcb3ef3d5ca7247277102478fe13df157d0f70724f12c389ea83da8317a09b9975bed45eeee34f4d87e34a9deae6c68059a1bd2858958f184afdefce6274389119ad4d792a6fdea28994ab5445ec65de127731706f8949e295f373c2d6fdf18e5c/360/index.m3u8",
+        "type": "hls"
+    }],
+    "tracks": [{
+        "file": "https://cc.1clickcdn.ru/4e/b3/4eb324f9a5dc48950f0c0ff72eb0b258/4eb324f9a5dc48950f0c0ff72eb0b258.vtt",
+        "label": "Danish 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/de/c0/dec05d0ee0437fcf158d9b4cc96de010/dec05d0ee0437fcf158d9b4cc96de010.vtt",
+        "label": "English 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/a8/5a/a85a8596dca16933d6a643df0b3be482/a85a8596dca16933d6a643df0b3be482.vtt",
+        "label": "English 2",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/f8/57/f8572ea1e47bf62372ab5c85c7e83ed6/f8572ea1e47bf62372ab5c85c7e83ed6.vtt",
+        "label": "English 3",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/70/01/700178234ef9c923a70263a5e36ce803/700178234ef9c923a70263a5e36ce803.vtt",
+        "label": "French 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/22/e0/22e05f89d78a0bb308b702c0ddbf3e89/22e05f89d78a0bb308b702c0ddbf3e89.vtt",
+        "label": "German 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/2b/f5/2bf5d45440e062e4cdbb951d7cf24aff/2bf5d45440e062e4cdbb951d7cf24aff.vtt",
+        "label": "Italian 1",
+        "kind": "captions"
+    }, {
+        "file": "https://cc.1clickcdn.ru/5a/c3/5ac3ac665ff69c37693541c3216dce3a/5ac3ac665ff69c37693541c3216dce3a.vtt",
+        "label": "Spanish 1",
+        "kind": "captions"
+    }]
+  }
+
+--------------------------------------------------------------------------------
