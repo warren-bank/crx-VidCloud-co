@@ -1,17 +1,8 @@
 // ==UserScript==
 // @name         VidCloud.co
 // @description  Watch videos in external player.
-// @version      1.0.9
-// @match        *://vidcloud.co/*
-// @match        *://*.vidcloud.co/*
-// @match        *://vidcloud.pro/*
-// @match        *://*.vidcloud.pro/*
-// @match        *://rabbitstream.net/*
-// @match        *://*.rabbitstream.net/*
-// @match        *://rapid-cloud.ru/*
-// @match        *://*.rapid-cloud.ru/*
-// @match        *://streamrapid.ru/*
-// @match        *://*.streamrapid.ru/*
+// @version      1.0.10
+// @include      /^https?:\/\/(?:[^\.\/]*\.)*(?:vidcloud\.(?:co|pro)|rabbitstream\.net|rapid-cloud\.ru|streamrapid\.ru)\/.*$/
 // @icon         https://vidcloud.co/images/favicon.png
 // @run-at       document-end
 // @grant        unsafeWindow
@@ -290,7 +281,7 @@ var determine_static_xhr_parameters = function() {
   if (!state.xhr_id) {
     try {
       pathname = unsafeWindow.location.pathname
-      regex    = new RegExp('^/(embed(?:-\\d+)?)/([^/]+)$')
+      regex    = new RegExp('^/(embed(?:-\\d+)?)(?:-[^/]+)?/([^/]+)$')
       match    = regex.exec(pathname)
 
       if (match && match.length) {
@@ -355,7 +346,9 @@ var determine_xhr_token = function(callback) {
       }
     })
   }
-  catch(e) {}
+  catch(e) {
+    callback()
+  }
 }
 
 // ----------------------------------------------------------------------------- trigger XHR request
@@ -364,7 +357,7 @@ var trigger_xhr_video_sources = function() {
   var xhr_callback, timer_callback
 
   xhr_callback = function() {
-    var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + state.xhr_token + '&_number=1&sId=1'
+    var url = unsafeWindow.location.protocol + '//' + unsafeWindow.location.hostname + '/ajax/' + state.xhr_embed + '/getSources?id=' + state.xhr_id + '&_token=' + (state.xhr_token || '') + '&_number=1&sId=1'
 
     download_text(url, null, process_xhr_video_sources)
   }
@@ -388,6 +381,10 @@ var trigger_xhr_video_sources = function() {
 }
 
 // ----------------------------------------------------------------------------- process XHR response
+
+/*
+ * TODO: CryptoJS.AES.decrypt(source, sid)
+ */
 
 var process_xhr_video_sources = function(text) {
   try {

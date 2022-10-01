@@ -1,0 +1,143 @@
+--------------------------------------------------------------------------------
+
+https://www.2embed.to/embed/imdb/tv?id=tt0478942&s=1&e=1
+
+https://rabbitstream.net/embed-5-v2/LiTxYtiO52Fd?z=
+
+--------------------------------------------------------------------------------
+
+https://rabbitstream.net/ajax/embed-5/getSources?id=LiTxYtiO52Fd
+
+response:
+=========
+{"sources":"U2FsdGVkX18fRINZilhKBq2VR7Y0F5y6gfi/xHP+bg/bAvL9lPSOFSXrFOVlREUPcRU2Qp7gwJTQDvmvBFfpw2S4o+lE4Ia5WeLHruuvnQYsVz4GbGWeF4JmRg1OkxqpU9E61LZ7a5MiOjZiRtplgOwXHEBApsLdXFQNc2E9YzAC/h08B0JmBkRFklWBhgS7FWCOq/NtpwpsP6A3WheBJqz1uS2yGxa0KADdcDeEdFDjsqkXPeESOcpBWFM0TcZXBxBss1fK58aHqyX9+D0TJoPuORPdfkRCA9l+s21cTJAJ0Xa6l6udUtGCdggE9Pid1/jANvIGQ/CS8u3S8KgTG4CPiNFzAtolxveF+Ft2Auiat9mMHOx+DzLwAFeon80rcMEs1oS6yLDJyncT8sAb4k9IpZUov9q/mAF60X+j4xLsa3yqo7Qg7yDidfr3w3cXitgO2i7jvKU9FUAoPOkcanM6fGBwNgOiISs/x89eHDkoFbY4ovHrxtdxk/RCT6wISTgeppqLRZxofoJUAGS4HXAWOfqVqqslYHprN7+5FTM6vt9BChULX7ySK7gmPwxPP58uzoRO45n+6saPldHFzC7V5So8h7VZttsXNg9Xu8U=","tracks":[],"server":18}
+
+--------------------------------------------------------------------------------
+// https://rabbitstream.net/embed-5-v2/LiTxYtiO52Fd?z=
+
+websocket messages:
+===================
+
+0{"sid":"AGfX4tIof9XghvCXs6hH","upgrades":[],"pingInterval":25000,"pingTimeout":20000,"maxPayload":1000000}
+40
+40{"sid":"Dh5OM6QVS2k20bvJs6jd"}
+42["getSources",{"id":"LiTxYtiO52Fd"}]
+42["getSources",{"sources":"U2FsdGVkX1+zWWCDpmFU9ITzyHojle/scxIpHzf8IFz554xubnxaCdMwk3+8KWVECkRVz85xYqmg7WTi1ayx8PYIbYDAWPQSPmM9IDwTDCf9vY3muVEiaA/MimzZKp/vxO5ng3p+kphyB6D0ahPzm1w5+9K7yKvR8EwTErXwg7mq91+0R1gOIi91GI7o98WN7xuELCaw/a/v6JNnrLJXU4f61UlxXi/9dcNA2KLZfn04C/jG+5JNDeBvqizu2ZG5JLrZPfbeCiC/bEog5qpxAwMC9KLAsoxr/MWWCryfA8nx9FVeUoM1hZXEaeuJifaj9ldRNzM0w3B0dWQ142np4W7RO34m7prgWsk+Pzrt+9M5bwNO/mbSwzyNPhf7X7ToaFNbZuIOiG+zbC0tb7vF2VlbbD1iua7HzgFNIGxcroAUNaNa2IfGXjaNndWzdc+KNbH3PcQqxmV8Chuq6faZWUa0Kng3norXfMbcGWJKIyqlwGl1HWgPujgvA4OTocUetlk7KmmjMyuXIDlCjHloaEFDUo0O3yhppKkHshGz/o67OUH/fFBHQ57R/QZD7n6gyMcxp8VZn6mwSiykygVbdg3hp+2lOu7Y4B98wU2HBzM=","tracks":[]}]
+41
+
+--------------------------------------------------------------------------------
+// https://rabbitstream.net/js/socket/e5-player.min.js?v=0.3
+
+_0x40ff84=io('https://wsx.rabbitstream.net',{'transports':[_0x4df2b0(0xe8b,'#w]q'),_0x4df2b0(0x168b,'SQ5D')],'withCredentials':!0x0})
+_0x40ff84['on'](_0x4df2b0(0xc3f,'4XC8'),()=>{var _0x22108f=_0x4df2b0;null===_0x3f4787&&(_0x3f4787=_0x40ff84['id'],_0x40ff84['emit'](_0x22108f(0x789,'4XC8'),{'id':_0x28bda9}));})
+_0x40ff84['on'](_0x4df2b0(0x16b,'wJ*a'),()=>{var _0x559922=_0x4df2b0;_0x40ff84[_0x559922(0x140f,'(sK2')]();})
+_0x40ff84['on']('getSources',_0x525840=>{var _0x10c85e=_0x4df2b0;_0x40ff84[_0x10c85e(0xaf3,'UJKY')](),_0x329d37=_0x525840[_0x10c85e(0x4f7,'d@gV')];try{const _0x49ae02=CryptoJS[_0x10c85e(0x17d0,'yCDY')]['decrypt'](_0x525840[_0x10c85e(0x872,'PC^z')],_0x3f4787);_0x3edfba=JSON[_0x10c85e(0x10a4,'#w]q')](_0x49ae02['toString'](CryptoJS[_0x10c85e(0x1baf,'wJ*a')][_0x10c85e(0x2d8,'97cB')]));}catch(_0x54e1ed){console['log'](_0x54e1ed[_0x10c85e(0xbbd,'6jz2')]);}_0x4e2441();})
+
+----------------------------------------
+
+_0x40ff84['on']('getSources',_0x525840=>{
+  var _0x10c85e=_0x4df2b0
+  _0x40ff84[_0x10c85e(0xaf3,'UJKY')]()
+  _0x329d37=_0x525840[_0x10c85e(0x4f7,'d@gV')]
+
+  try{
+    const _0x49ae02=CryptoJS[_0x10c85e(0x17d0,'yCDY')]['decrypt'](_0x525840[_0x10c85e(0x872,'PC^z')],_0x3f4787);
+    _0x3edfba=JSON[_0x10c85e(0x10a4,'#w]q')](_0x49ae02['toString'](CryptoJS[_0x10c85e(0x1baf,'wJ*a')][_0x10c85e(0x2d8,'97cB')]));
+  }
+  catch(_0x54e1ed){
+    console['log'](_0x54e1ed[_0x10c85e(0xbbd,'6jz2')]);
+  }
+
+  _0x4e2441();
+});
+
+----------------------------------------
+
+var _0x4df2b0=_0xe636;
+
+_0xe636(0xaf3,'UJKY')  == 'close'
+_0xe636(0x4f7,'d@gV')  == 'tracks'
+_0xe636(0x17d0,'yCDY') == 'AES'
+_0xe636(0x872,'PC^z')  == 'sources'
+_0xe636(0x10a4,'#w]q') == 'parse'
+_0xe636(0x1baf,'wJ*a') == 'enc'
+_0xe636(0x2d8,'97cB')  == 'Utf8'
+_0xe636(0xbbd,'6jz2')  == 'message'
+
+----------------------------------------
+
+_0x40ff84['on']('getSources',_0x525840=>{
+  var _0x10c85e=_0x4df2b0
+  _0x40ff84['close']()
+  _0x329d37=_0x525840['tracks']
+
+  try{
+    const _0x49ae02=CryptoJS['AES']['decrypt'](_0x525840['sources'],_0x3f4787);
+    _0x3edfba=JSON['parse'](_0x49ae02['toString'](CryptoJS['enc']['Utf8']));
+  }
+  catch(err){
+    console['log'](err['message']);
+  }
+
+  _0x4e2441()
+})
+
+----------------------------------------
+
+{
+  // received in websocket message: "sid"
+  _0x3f4787 = 'Dh5OM6QVS2k20bvJs6jd'
+
+  // received in websocket message: "getSources"
+  const sources = {"sources":"U2FsdGVkX1+zWWCDpmFU9ITzyHojle/scxIpHzf8IFz554xubnxaCdMwk3+8KWVECkRVz85xYqmg7WTi1ayx8PYIbYDAWPQSPmM9IDwTDCf9vY3muVEiaA/MimzZKp/vxO5ng3p+kphyB6D0ahPzm1w5+9K7yKvR8EwTErXwg7mq91+0R1gOIi91GI7o98WN7xuELCaw/a/v6JNnrLJXU4f61UlxXi/9dcNA2KLZfn04C/jG+5JNDeBvqizu2ZG5JLrZPfbeCiC/bEog5qpxAwMC9KLAsoxr/MWWCryfA8nx9FVeUoM1hZXEaeuJifaj9ldRNzM0w3B0dWQ142np4W7RO34m7prgWsk+Pzrt+9M5bwNO/mbSwzyNPhf7X7ToaFNbZuIOiG+zbC0tb7vF2VlbbD1iua7HzgFNIGxcroAUNaNa2IfGXjaNndWzdc+KNbH3PcQqxmV8Chuq6faZWUa0Kng3norXfMbcGWJKIyqlwGl1HWgPujgvA4OTocUetlk7KmmjMyuXIDlCjHloaEFDUo0O3yhppKkHshGz/o67OUH/fFBHQ57R/QZD7n6gyMcxp8VZn6mwSiykygVbdg3hp+2lOu7Y4B98wU2HBzM=","tracks":[]}
+
+  _0x40ff84._callbacks.$getSources[0](sources)
+
+  console.log(JSON.stringify(_0x3edfba))
+}
+
+output:
+=======
+[{"default":false,"type":"hls","file":"https://b-g-eu-5.feetcdn.com:2223/v2-hls-playback/e9eea270dce2601b1f873fc881f81ef62899b0bdcbd7dc7f6a80e5aa3149b1153129b68780bd8deb18386140830f7cc0d8e3cca9984a06613db07b5d602bf8f477775bd15cdd347650eab9bed29a1e4d35303d4ebbcc0ef7c63f5c236b6d660e79b27e2c9a30b262af1dd13178611e8225cbb5c8525d57c6e542b86d07652ac93ada05ac856c311827d8c67063bcda10247a80dde26da1392c62af48f1dc092ad9dbc3e12a65f5210ff32532c8994d9f/playlist.m3u8","label":"0"}]
+
+----------------------------------------
+
+{
+  // received in websocket message: "sid"
+  const sid = 'Dh5OM6QVS2k20bvJs6jd'
+
+  // received in websocket message: "getSources"
+  const sources = {"sources":"U2FsdGVkX1+zWWCDpmFU9ITzyHojle/scxIpHzf8IFz554xubnxaCdMwk3+8KWVECkRVz85xYqmg7WTi1ayx8PYIbYDAWPQSPmM9IDwTDCf9vY3muVEiaA/MimzZKp/vxO5ng3p+kphyB6D0ahPzm1w5+9K7yKvR8EwTErXwg7mq91+0R1gOIi91GI7o98WN7xuELCaw/a/v6JNnrLJXU4f61UlxXi/9dcNA2KLZfn04C/jG+5JNDeBvqizu2ZG5JLrZPfbeCiC/bEog5qpxAwMC9KLAsoxr/MWWCryfA8nx9FVeUoM1hZXEaeuJifaj9ldRNzM0w3B0dWQ142np4W7RO34m7prgWsk+Pzrt+9M5bwNO/mbSwzyNPhf7X7ToaFNbZuIOiG+zbC0tb7vF2VlbbD1iua7HzgFNIGxcroAUNaNa2IfGXjaNndWzdc+KNbH3PcQqxmV8Chuq6faZWUa0Kng3norXfMbcGWJKIyqlwGl1HWgPujgvA4OTocUetlk7KmmjMyuXIDlCjHloaEFDUo0O3yhppKkHshGz/o67OUH/fFBHQ57R/QZD7n6gyMcxp8VZn6mwSiykygVbdg3hp+2lOu7Y4B98wU2HBzM=","tracks":[]}
+
+  let decrypted
+  decrypted = CryptoJS.AES.decrypt(sources.sources, sid)
+  decrypted = decrypted.toString(CryptoJS.enc.Utf8)
+  decrypted = JSON.parse(decrypted)
+
+  console.log(JSON.stringify(decrypted))
+}
+
+output:
+=======
+[{"file":"https://b-g-eu-5.feetcdn.com:2223/v2-hls-playback/e9eea270dce2601b1f873fc881f81ef62899b0bdcbd7dc7f6a80e5aa3149b1153129b68780bd8deb18386140830f7cc0d8e3cca9984a06613db07b5d602bf8f477775bd15cdd347650eab9bed29a1e4d35303d4ebbcc0ef7c63f5c236b6d660e79b27e2c9a30b262af1dd13178611e8225cbb5c8525d57c6e542b86d07652ac93ada05ac856c311827d8c67063bcda10247a80dde26da1392c62af48f1dc092ad9dbc3e12a65f5210ff32532c8994d9f/playlist.m3u8","type":"hls"}]
+
+--------------------------------------------------------------------------------
+
+issues (ES5):
+=============
+* the old/deprecated ajax API endpoint now returns encrypted data,
+  which appears to use the same encryption/decryption scheme as the "getSources" payload received in a websocket message,
+  but it isn't immediately obvious what "sid" value to use for decryption
+  - the querystring for this API endpoint used to require the querystring parameters: "_token", "_number", "sId"
+  - passing a "sId" qs value doesn't cause the API to encrypt its response such that this "sid" value could be used for decryption
+
+--------------------------------------------------------------------------------
+
+workarounds (ES6+):
+===================
+* poll for:
+    window._0x3edfba
+* poll for:
+    window.jwplayer().getConfig().playlistItem.file
+
+--------------------------------------------------------------------------------
